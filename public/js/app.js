@@ -280,3 +280,18 @@ function notificarme() {
 
 }
 //  notificarme();
+
+// Creamos un nuevo metodo Get Key (para hacer petición de la key)
+function getPublicKey() {
+    
+    // fetch('api/key')
+    //     .then( res => res.text())
+    //     .then( console.log );
+
+    return fetch('api/key')
+            .then( res => res.arrayBuffer())
+            // retornamos arreglo, pero como un Uint8Array
+            .then( key => new Uint8Array(key) );  
+
+}
+getPublicKey().then(console.log);
