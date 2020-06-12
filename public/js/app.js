@@ -150,6 +150,7 @@ cancelarBtn.on('click', function() {
 postBtn.on('click', function() {
 
     var mensaje = txtMensaje.val();
+
     if ( mensaje.length === 0 ) {
         cancelarBtn.click();
         return;
@@ -171,8 +172,6 @@ postBtn.on('click', function() {
     .then( res => res.json() )
     .then( res => console.log( 'app.js', res ))
     .catch( err => console.log( 'app.js error:', err ));
-
-
 
     crearMensajeHTML( mensaje, usuario );
 
@@ -196,7 +195,6 @@ function getMensajes() {
 
 
 }
-
 getMensajes();
 
 
@@ -233,6 +231,8 @@ isOnline();
 // Notificaciones
 
 function verificaSuscripcion( activadas ) {
+
+        console.log( activadas );
     
         if ( activadas ) {
 
@@ -258,7 +258,7 @@ function enviarNotificacion() {
 
     n.onclick = () => {
         console.log('Click');
-    }
+    };
 
 }
 
@@ -319,9 +319,14 @@ btnDesactivadas.on( 'click', function() {
             .then( res => res.toJSON() )
             .then( suscripcion => {
 
-                console.log( suscripcion );
-
-                verificaSuscripcion(suscripcion);
+                // console.log( suscripcion );
+                fetch('api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify( suscripcion )
+                })
+                .then( verificaSuscripcion )
+                .catch( console.log );
 
             });
 
