@@ -148,10 +148,44 @@ self.addEventListener('push', e => {
         badge: 'img/favicon.ico',
         image: 'https://vignette.wikia.nocookie.net/marvel/images/6/66/Torre_Stark.jpg/revision/latest?cb=20131203014445&path-prefix=es',
         vibrate: [125,75,125,275,200,275,125,75,125,275,200,600,200,600],
-        openUrl: '/'
+        openUrl: '/',
+        data: {
+            url: 'https://www.miquielmatallanes.com',
+            id: data.usuario
+        },
+        actions: [
+            {
+                action: 'thor-action',
+                title: 'Thor',
+                icon: 'img/avatars/thor.jpg'
+            },
+            {
+                action: 'ironman-action',
+                title: 'Ironman',
+                icon: 'img/avatars/ironman.jpg'
+            }
+        ]
     };
 
     e.waitUntil( self.registration.showNotification( title, options ) );
 
+
+});
+
+// Eventos de notificaciones
+// Cuando se cierra la notificación
+self.addEventListener('notificationclose', e => {
+    console.log('Notificación cerrada', e);
+});
+
+// Cuando hace clic en la notificación
+self.addEventListener('notificationclick', e => {
+
+    const notificacion = e.notification;
+    const accion = e.action;
+
+    console.log({ notificacion, accion });
+
+    notificacion.close();
 
 });
