@@ -76,6 +76,7 @@
         "module"   : true,
         "process"  : true,
         "$"        : true,
-        "importScripts": true
+        "importScripts": true,
+        "clients":  true
     }
 }

@@ -150,7 +150,8 @@ self.addEventListener('push', e => {
         vibrate: [125,75,125,275,200,275,125,75,125,275,200,600,200,600],
         openUrl: '/',
         data: {
-            url: 'https://www.miquielmatallanes.com',
+            // url: 'https://www.miquelmatallanes.com',
+            url: '/',
             id: data.usuario
         },
         actions: [
@@ -186,6 +187,26 @@ self.addEventListener('notificationclick', e => {
 
     console.log({ notificacion, accion });
 
-    notificacion.close();
+
+    // Los "clients" son los tabs de la applicación
+    const respuesta = clients.matchAll()
+        .then( clientes => {
+            let cliente = clientes.find( c => {
+                return c.visibilityState === 'visible';
+            });
+
+            if ( cliente !== undefined ) {
+                cliente.navigate( notificacion.data.url );
+                cliente.focus();
+            } else {
+                clients.openWindow( notificacion.data.url );
+                
+            }
+
+            return notificacion.close();
+        });
+
+        e.waitUntil( respuesta );
+
 
 });
